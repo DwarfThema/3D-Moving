@@ -48,6 +48,26 @@ public class Puppy : MonoBehaviour
         }
     }
 
+    bool DetectingAngle(Vector3 position)
+    {
+        Vector3 dir = position - transform.position;
+
+        float checkDegree = Vector3.Angle(transform.forward, dir);
+
+        print(checkDegree);
+
+        if (checkDegree <= 180 && checkDegree >= 90)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+
     public float detectDistnace = 5f;
 
     private void UpdateIdle()
@@ -55,7 +75,9 @@ public class Puppy : MonoBehaviour
 
         float distance = Vector3.Distance(transform.position, target.transform.position);
 
-        if (distance < detectDistnace)
+        bool isInSight = DetectingAngle(target.transform.position);
+
+        if (distance < detectDistnace && isInSight)
         {
             state = State.Move;
         }
