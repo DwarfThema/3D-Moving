@@ -31,7 +31,10 @@ public class PlayerMove : MonoBehaviour
 
         float time = Time.deltaTime;
 
-        
+        //카메라 동기화
+        dir = Camera.main.transform.TransformDirection(dir);
+
+
 
         // 속도 증가
         if (Input.GetKey(KeyCode.LeftShift))

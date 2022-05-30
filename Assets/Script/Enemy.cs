@@ -2,88 +2,76 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI; //NavMeshAgent 하려면 꼭 필요
 
 public class Enemy : MonoBehaviour
 {
-    NavMeshAgent agent;
+    public State state;
 
     public enum State
     {
         Idle,
-        Move,
-        Return
+        Attack
     }
-
-    public State state;
 
     GameObject target;
 
-    Vector3 originPosition;
+    PlayerHP playerHp;
 
     // Start is called before the first frame update
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-
         state = State.Idle;
 
         target = GameObject.Find("FirstPerson");
 
-        originPosition = transform.position;
+        playerHp = target.GetComponent<PlayerHP>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(state == State.Idle)
+        if(state == State.Attack)
         {
+            UpdateAttack();
+        }
+        else
+        {
+            state = State.Idle;
             UpdateIdle();
-        }else if(state == State.Move)
-        {
-            UpdateMove();
-        }else if( state == State.Return)
-        {
-            UpdateReturn();
         }
     }
 
-    public float detectDistnace = 5f;
-
+    float attackDistance = 2f;
     private void UpdateIdle()
     {
-
         float distance = Vector3.Distance(transform.position, target.transform.position);
 
-        if (distance < detectDistnace)
+        if(distance < attackDistance)
         {
-            state = State.Move;
+            state = State.Attack;
         }
     }
 
-    public float traceDistance = 5f;
+    float currentTime;
+    float attackTime = 1;
 
-    private void UpdateMove()
+    private void UpdateAttack()
     {
-        agent.destination = target.transform.position;
+        currentTime += Time.deltaTime;
+
+        if(currentTime > attackTime)
+        {
+            playerHp.AddDamage();
+            currentTime = 0;
+        }
+
 
         float distance = Vector3.Distance(transform.position, target.transform.position);
 
-        if(distance > traceDistance)
-        {
-            state = State.Return;
-        }
-    }
-
-    private void UpdateReturn()
-    {
-        agent.destination = originPosition;
-
-        float distance = Vector3.Distance(transform.position, originPosition);
-
-        if (distance <= 0.1f)
+        if (distance > attackDistance)
         {
             state = State.Idle;
         }
     }
+
 }
