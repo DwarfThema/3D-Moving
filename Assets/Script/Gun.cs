@@ -19,11 +19,9 @@ public class Gun : MonoBehaviour
 
         if (Physics.Raycast(currentRay, out hitInfo))
         {
-            print(hitInfo.transform.name);
         }
         else
         {
-            print("아무것도 없다.");
         }
     }
 
