@@ -54,8 +54,6 @@ public class Puppy : MonoBehaviour
 
         float checkDegree = Vector3.Angle(transform.forward, dir);
 
-        print(checkDegree);
-
         if (checkDegree <= 180 && checkDegree >= 90)
         {
             return true;
