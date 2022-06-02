@@ -30,6 +30,7 @@ public class PlayerHP : MonoBehaviour
     {
         HP = maxHP;
         slider.value = maxHP;   
+        //에이치피..
     }
 
     // Update is called once per frame
