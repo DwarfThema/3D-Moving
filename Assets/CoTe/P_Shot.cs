@@ -13,17 +13,20 @@ public class P_Shot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-        RaycastHit hitInfo;
-
-        if (Physics.Raycast(ray, out hitInfo))
+        if (Input.GetButtonDown("Fire1"))
         {
-            Debug.Log(hitInfo.transform.name);
+            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+            RaycastHit hitInfo;
 
-            E_Move enemy = hitInfo.transform.GetComponent<E_Move>();
-            if (enemy != null)
+            if (Physics.Raycast(ray, out hitInfo))
             {
-                enemy.AddDamage(1);
+                Debug.Log(hitInfo.transform.name);
+
+                E_Move enemy = hitInfo.transform.GetComponent<E_Move>();
+                if (enemy != null)
+                {
+                    enemy.AddDamage(1);
+                }
             }
         }
     }
